@@ -1,38 +1,32 @@
 import React, { useEffect, useState, useMemo } from "react";
 import _ from "lodash";
+import { useDispatch, useSelector } from "react-redux";
 import EventClass from "./EventClass";
 import Event from "./Event";
 import "./_app.scss";
 
+function eventsSelector({ events }) {
+  return {
+    loading: events.loading,
+    groupedByClass: _.toPairs(_.groupBy(events.data, e => e.classId))
+  };
+}
+
 function App() {
-  const [groupedByClass, setGroupedByClass] = useState([]);
-
+  const dispatch = useDispatch();
   useEffect(() => {
-    const w = new WebSocket("ws://localhost:8889");
-
-    w.addEventListener("message", e => {
-      const wEventDTO = JSON.parse(e.data);
-
-      if (wEventDTO.type === "LIVE_EVENTS_DATA") {
-        const grouped = _.groupBy(wEventDTO.data, e => e.classId);
-        setGroupedByClass(grouped);
-      }
-    });
-
-    w.onopen = () => {
-      w.send(JSON.stringify({ type: "getLiveEvents", primaryMarkets: false }));
-    };
+    dispatch({ type: "GET_EVENTS" });
   }, []);
 
-  const eventTypes = useMemo(() => {
-    return _.toPairs(groupedByClass || []);
-  }, [groupedByClass]);
+  const { loading, groupedByClass } = useSelector(eventsSelector);
 
-  console.log(groupedByClass);
+  if (loading) {
+    return <div className="App">...loading</div>;
+  }
 
   return (
     <div className="App">
-      {eventTypes.map(([classID, byClassEvents], index) => (
+      {groupedByClass.map(([classID, byClassEvents], index) => (
         <EventClass
           key={classID}
           name={_.get(byClassEvents, "[0].className", "")}
