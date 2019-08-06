@@ -5,7 +5,7 @@ import "./_eventClass.scss";
 import { ReactComponent as ExpandIcon } from "./expand-arrow.svg";
 import { ReactComponent as CollapseIcon } from "./expand-button.svg";
 
-function EventClass({ name, count, children, expanded }) {
+function EventClass({ name, children, expanded }) {
   const [showChildren, setShowChildren] = useState(expanded);
 
   useDidUpdateEffect(() => {
@@ -17,15 +17,14 @@ function EventClass({ name, count, children, expanded }) {
       <div className="EventClass--header">
         <div className="EventClass--name">{name}</div>
         <div>
-          {count > 0 ? <div className="EventClass--count">{count}</div> : null}
           <div
-            className="EventClass-toggleIcon"
+            className="EventClass--toggleIcon"
             onClick={() => setShowChildren(!showChildren)}
           >
             {showChildren ? (
-              <CollapseIcon height={30} width={30} />
+              <CollapseIcon title="collapse" height={30} width={30} />
             ) : (
-              <ExpandIcon height={30} width={30} />
+              <ExpandIcon title="expand" height={30} width={30} />
             )}
           </div>
         </div>
