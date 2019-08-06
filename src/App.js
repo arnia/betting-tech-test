@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useMemo } from "react";
 import _ from "lodash";
 import EventClass from "./EventClass";
+import Event from "./Event";
+import "./_app.scss";
 
 function App() {
   const [groupedByClass, setGroupedByClass] = useState([]);
@@ -26,14 +28,24 @@ function App() {
     return _.toPairs(groupedByClass || []);
   }, [groupedByClass]);
 
+  console.log(groupedByClass);
+
   return (
     <div className="App">
-      {eventTypes.map(([classID, byClassEvents]) => (
+      {eventTypes.map(([classID, byClassEvents], index) => (
         <EventClass
           key={classID}
           name={_.get(byClassEvents, "[0].className", "")}
-          count={0}
-        />
+          expanded={index === 0}
+        >
+          {byClassEvents.map(event => (
+            <Event
+              key={event.eventId}
+              name={event.name}
+              eventId={event.eventId}
+            />
+          ))}
+        </EventClass>
       ))}
     </div>
   );
