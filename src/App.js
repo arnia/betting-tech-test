@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect } from "react";
 import _ from "lodash";
 import { useDispatch, useSelector } from "react-redux";
 import EventClass from "./EventClass";
@@ -16,6 +16,7 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({ type: "GET_EVENTS" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { loading, groupedByClass } = useSelector(eventsSelector);
@@ -37,6 +38,7 @@ function App() {
               key={event.eventId}
               name={event.name}
               eventId={event.eventId}
+              primaryMarketId={event.markets && event.markets[0]}
             />
           ))}
         </EventClass>

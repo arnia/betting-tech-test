@@ -41,7 +41,7 @@ function* openWebSocketChannel() {
     try {
       const payload = yield take(socketChannel);
 
-      yield put({ type: "SOCKET_EVENT", payload });
+      yield put({ type: "SOCKET_RECEIVE", payload });
     } catch (err) {
       console.log("socket error: ", err);
     }

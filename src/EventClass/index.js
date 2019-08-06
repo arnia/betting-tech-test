@@ -14,13 +14,13 @@ function EventClass({ name, children, expanded }) {
 
   return (
     <div className="EventClass">
-      <div className="EventClass--header">
+      <div
+        className="EventClass--header"
+        onClick={() => setShowChildren(!showChildren)}
+      >
         <div className="EventClass--name">{name}</div>
         <div>
-          <div
-            className="EventClass--toggleIcon"
-            onClick={() => setShowChildren(!showChildren)}
-          >
+          <div className="EventClass--toggleIcon">
             {showChildren ? (
               <CollapseIcon title="collapse" height={30} width={30} />
             ) : (
