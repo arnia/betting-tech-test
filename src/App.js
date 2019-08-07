@@ -3,6 +3,7 @@ import _ from "lodash";
 import { connect } from "react-redux";
 import EventClass from "./EventClass";
 import Event from "./Event";
+import TogglePriceFormat from "./TogglePrice";
 import "./_app.scss";
 
 function App({ loading, groupedByClass, getEvents }) {
@@ -16,6 +17,10 @@ function App({ loading, groupedByClass, getEvents }) {
 
   return (
     <div className="App">
+      <div className="App--toggle-price-format">
+        <TogglePriceFormat />
+      </div>
+
       {groupedByClass.map(([classID, byClassEvents], index) => (
         <EventClass
           key={classID}
