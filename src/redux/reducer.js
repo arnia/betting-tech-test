@@ -3,7 +3,10 @@ import _ from "lodash";
 
 const defaultState = {
   events: { loading: false },
-  markets: {}
+  markets: {},
+  settings: {
+    showDecimalPrices: false
+  }
 };
 
 export default function reducer(state = defaultState, action) {
@@ -51,6 +54,10 @@ export default function reducer(state = defaultState, action) {
       if (_.keys(market.outcomesData).length === market.outcomes.length) {
         draft.markets[action.outcome.marketId].loading = false;
       }
+    }
+
+    if (action.type === "TOGGLE_PRICE_FORMAT") {
+      draft.settings.showDecimalPrices = !draft.settings.showDecimalPrices;
     }
   });
 }
