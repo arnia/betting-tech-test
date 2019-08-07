@@ -18,11 +18,13 @@ export default function reducer(state = defaultState, action) {
       draft.events.data = action.events;
     }
 
-    if (action.type === "START_LOADING_MARKET") {
-      draft.markets[action.marketId] = {
-        loading: true,
-        data: {}
-      };
+    if (action.type === "START_LOADING_MARKETS") {
+      (action.marketIds || []).forEach(id => {
+        draft.markets[id] = {
+          loading: true,
+          data: {}
+        };
+      });
     }
 
     if (action.type === "SET_MARKET_DATA") {

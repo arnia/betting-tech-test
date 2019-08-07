@@ -4,14 +4,15 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { ReactComponent as LoadingIcon } from "./loading.svg";
 import "./_event.scss";
+import MarketList from "./Market/MarketList";
 
 function Event({
   name,
   eventId,
-  primaryMarketId,
+  marketIds,
   loading,
-  market,
-  getMarket,
+  markets,
+  getPrimaryMarkets,
   scores
 }) {
   return (
@@ -32,8 +33,10 @@ function Event({
         </div>
       ) : (
         <>
-          {market ? (
-            <div className="Event--market">market</div>
+          {!_.isEmpty(markets) ? (
+            <div className="Event--market">
+              <MarketList markets={markets} />
+            </div>
           ) : (
             <a
               href="#"
@@ -41,7 +44,7 @@ function Event({
               className="Event--showMarket"
               onClick={e => {
                 e.preventDefault();
-                getMarket();
+                getPrimaryMarkets();
               }}
             >
               show market
@@ -53,10 +56,15 @@ function Event({
   );
 }
 
+Event.defaultProps = {
+  marketIds: []
+};
+
 Event.propTypes = {
   name: PropTypes.string.isRequired,
   eventId: PropTypes.number.isRequired,
-  primaryMarketId: PropTypes.number.isRequired,
+  marketIds: PropTypes.arrayOf(PropTypes.number),
+  getPrimaryMarkets: PropTypes.func.isRequired,
   scores: PropTypes.shape({
     home: PropTypes.number,
     away: PropTypes.number
@@ -65,14 +73,21 @@ Event.propTypes = {
 
 export default connect(
   (state, props) => {
-    const market = state.markets[props.primaryMarketId] || {};
-    return {
-      loading: market.loading || false,
-      market: market.data
-    };
+    // is loading when at least of the markets is loading
+    const loading = _.every(
+      props.marketIds.map(marketId =>
+        _.get(state, `markets['${marketId}'].loading`, false)
+      )
+    );
+
+    const markets = props.marketIds
+      .filter(id => _.get(state, `markets['${id}'].loading`) === false)
+      .map(id => _.get(state, `markets['${id}'].data`));
+
+    return { loading, markets };
   },
   (dispatch, props) => ({
-    getMarket: () =>
-      dispatch({ type: "GET_MARKET", marketId: props.primaryMarketId })
+    getPrimaryMarkets: () =>
+      dispatch({ type: "GET_PRIMARY_MARKETS", marketIds: props.marketIds })
   })
 )(Event);
