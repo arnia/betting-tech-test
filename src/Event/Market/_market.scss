@@ -26,4 +26,14 @@
 				margin: 0 1rem;
 		}
 
+
+		&--win-draw-win {
+				display: flex;
+				& > * {
+						flex: 1;
+				}
+				& > *:not(:last-child) {
+						border-right: 1px solid $color-blue-light;
+				}
+		}
 }

@@ -14,7 +14,8 @@ function TogglePriceFormat({ showDecimalPrices, toggle }) {
       <input
         id={`radio${o.value}`}
         type="radio"
-        value={o.value.toString()}
+        value={o.value}
+        checked={o.value === showDecimalPrices}
         name="decimalFormt"
         onChange={e => toggle()}
       />

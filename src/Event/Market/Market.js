@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import _ from "lodash";
 import { ReactComponent as InfoIcon } from "./info.svg";
 import StandardOutcome from "./Outcome/StandardOutcome";
+import WinDrawWinOutcome from "./Outcome/WinDrawWinOutcome";
 import "./_market.scss";
 
 function Market({ name, outcomesData, type, notes }) {
@@ -10,31 +11,46 @@ function Market({ name, outcomesData, type, notes }) {
     [outcomesData]
   );
 
-  if (type === "standard") {
-    return (
-      <div className="Market">
-        <div className="Market--header">{name}</div>
+  return (
+    <div className="Market">
+      <div className="Market--header">{name}</div>
 
-        {notes ? (
-          <div className="Market--notes">
-            <InfoIcon height={18} width={18} />
-            <span className="Market--notes-bullet">&bull;</span>
-            <span>{notes}</span>
-          </div>
-        ) : null}
+      {notes ? (
+        <div className="Market--notes">
+          <InfoIcon height={18} width={18} />
+          <span className="Market--notes-bullet">&bull;</span>
+          <span>{notes}</span>
+        </div>
+      ) : null}
 
-        {ordoredOutcomes.map(outcome => (
-          <StandardOutcome
-            key={outcome.outcomeId}
-            name={outcome.name}
-            price={outcome.price}
-            suspended={outcome.status.suspended}
-          />
-        ))}
-      </div>
-    );
-  }
-  return null;
+      {type === "standard"
+        ? ordoredOutcomes.map(outcome => (
+            <StandardOutcome
+              key={outcome.outcomeId}
+              name={outcome.name}
+              price={outcome.price}
+              suspended={outcome.status.suspended}
+              displayable={outcome.status.displayable}
+            />
+          ))
+        : null}
+
+      {type === "win-draw-win" ? (
+        <div className="Market--win-draw-win">
+          {ordoredOutcomes.map(outcome => (
+            <WinDrawWinOutcome
+              key={outcome.outcomeId}
+              name={outcome.name}
+              type={outcome.type}
+              price={outcome.price}
+              suspended={outcome.status.suspended}
+              displayable={outcome.status.displayable}
+            />
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
 }
 
 Market.defaultProps = {

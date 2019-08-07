@@ -26,5 +26,10 @@
 
 				color: $color-red;
 				font-weight: $font-weight-bold;
+
+				&__suspended {
+						background-color: $color-grey-light2;
+						color: $color-grey;
+				}
 		}
 }

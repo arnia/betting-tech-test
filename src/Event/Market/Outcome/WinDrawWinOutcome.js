@@ -1,14 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "./_standardOutcome.scss";
+import "./_winDrowWinOutcome.scss";
 import Price from "../../../Price";
 
-function StandardOutcome({ name, price, suspended, displayable }) {
+function WinDrawWinOutcome({ name, type, price, suspended, displayable }) {
   if (suspended) {
     return (
-      <div className="StandardOutcome StandardOutcome__suspended">
-        <div className="StandardOutcome--name">{name}</div>
-        <div className="StandardOutcome--price StandardOutcome--price__suspended">
+      <div className="WinDrawWinOutcome WinDrawWinOutcome__suspended">
+        <div className="WindrawWinOutcome--suspended" title="Suspended">
           Susp
         </div>
       </div>
@@ -16,12 +15,14 @@ function StandardOutcome({ name, price, suspended, displayable }) {
   }
 
   return (
-    <div className="StandardOutcome">
-      <div className="StandardOutcome--name">{name}</div>
+    <div className="WinDrawWinOutcome" title={name}>
       {displayable ? (
-        <div className="StandardOutcome--price">
-          <Price price={price} />
-        </div>
+        <>
+          <div className="WinDrawWinOutcome--name">{type}</div>
+          <div className="WinDrawWinOutcome--price">
+            <Price price={price} />
+          </div>
+        </>
       ) : (
         "-"
       )}
@@ -29,15 +30,16 @@ function StandardOutcome({ name, price, suspended, displayable }) {
   );
 }
 
-StandardOutcome.defaultProps = {
+WinDrawWinOutcome.defaultProps = {
   name: "",
+  type: "",
   suspended: false,
-  displayable: true,
   price: {}
 };
 
-StandardOutcome.propTypes = {
+WinDrawWinOutcome.propTypes = {
   name: PropTypes.string,
+  type: PropTypes.string,
   suspended: PropTypes.bool,
   displayable: PropTypes.bool,
   price: PropTypes.shape({
@@ -47,4 +49,4 @@ StandardOutcome.propTypes = {
   })
 };
 
-export default StandardOutcome;
+export default WinDrawWinOutcome;

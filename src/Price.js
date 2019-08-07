@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-function Price({ price, decimal, ...props }) {
+function Price({ price, decimal, dispatch, ...props }) {
   if (decimal) {
     return <span {...props}>{price.decimal}</span>;
   }
@@ -21,9 +21,9 @@ Price.defaultProps = {
 Price.propTypes = {
   decimal: PropTypes.bool,
   price: PropTypes.shape({
-    decimal: PropTypes.string,
-    num: PropTypes.string,
-    den: PropTypes.string
+    decimal: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    num: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    den: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   }).isRequired
 };
 
