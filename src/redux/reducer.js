@@ -1,75 +1,54 @@
+import produce from "immer";
+import _ from "lodash";
+
 const defaultState = {
   events: { loading: false },
   markets: {}
 };
 
 export default function reducer(state = defaultState, action) {
-  if (action.type === "START_LOADING_EVENTS") {
-    return {
-      ...state,
-      events: {
+  return produce(state, draft => {
+    if (action.type === "START_LOADING_EVENTS") {
+      draft.events.loading = true;
+      draft.events.data = [];
+    }
+
+    if (action.type === "SET_EVENTS") {
+      draft.events.loading = false;
+      draft.events.data = action.events;
+    }
+
+    if (action.type === "START_LOADING_MARKET") {
+      draft.markets[action.marketId] = {
         loading: true,
-        data: []
-      }
-    };
-  }
+        data: {}
+      };
+    }
 
-  if (action.type === "SET_EVENTS") {
-    return {
-      ...state,
-      events: {
-        loading: false,
-        data: action.events
-      }
-    };
-  }
+    if (action.type === "SET_MARKET_DATA") {
+      const outcomes = _.get(
+        draft,
+        `markets['${action.marketId}'].outcomes`,
+        []
+      );
+      draft.markets[action.market.marketId] = {
+        loading: outcomes.length > 0, // will make it true when we get the outcomes
+        data: action.market
+      };
+    }
 
-  if (action.type === "START_LOADING_MARKET") {
-    return {
-      ...state,
-      markets: {
-        ...state.markets,
-        [action.marketId]: {
-          loading: true,
-          data: {}
-        }
-      }
-    };
-  }
+    if (action.type === "SET_OUTCOME_DATA") {
+      const market = draft.markets[action.outcome.marketId].data;
 
-  if (action.type === "SET_MARKET_DATA") {
-    return {
-      ...state,
-      markets: {
-        ...state.markets,
-        [action.market.marketId]: {
-          loading: false, // will make it true when we get the outcomes
-          data: action.market
-        }
+      if (!market.outcomesData) {
+        market.outcomesData = {};
       }
-    };
-  }
 
-  if (action.type === "SET_OUTCOME_DATA") {
-    debugger;
-    const newState = {
-      ...state,
-      markets: {
-        ...state.markets,
-        [action.outcome.marketId]: {
-          loading: true,
-          data: {
-            ...state.markets[action.outcome.marketId],
-            outcomesData: {
-              ...(state.markets[action.outcome.marketId].outcomesData || {}),
-              [action.outcome.outcomeId]: action.outcome
-            }
-          }
-        }
+      market.outcomesData[action.outcome.outcomeId] = action.outcome;
+
+      if (_.keys(market.outcomesData).length === market.outcomes.length) {
+        draft.markets[action.outcome.marketId].loading = false;
       }
-    };
-    return newState;
-  }
-
-  return state;
+    }
+  });
 }
