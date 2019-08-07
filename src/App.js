@@ -34,6 +34,7 @@ function App({ loading, groupedByClass, getEvents }) {
               scores={event.scores}
               eventId={event.eventId}
               marketIds={event.markets}
+              expandFirstMarket
             />
           ))}
         </EventClass>

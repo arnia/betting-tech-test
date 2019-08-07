@@ -5,7 +5,15 @@ import { connect } from "react-redux";
 import "./_event.scss";
 import Market from "./Market/Market";
 
-function Event({ name, eventId, marketIds, loading, scores }) {
+function Event({
+  name,
+  eventId,
+  marketIds,
+  loading,
+  scores,
+  alwaysShowMarkets,
+  expandFirstMarket
+}) {
   const [showMarketList, setShowMarketList] = useState(false);
 
   return (
@@ -21,10 +29,14 @@ function Event({ name, eventId, marketIds, loading, scores }) {
         </div>
       </div>
 
-      {showMarketList ? (
+      {alwaysShowMarkets || showMarketList ? (
         <div className="Event--market">
-          {marketIds.map(id => (
-            <Market key={id} marketId={id} expanded />
+          {marketIds.map((id, i) => (
+            <Market
+              key={id}
+              marketId={id}
+              expanded={expandFirstMarket ? i === 0 : false}
+            />
           ))}
         </div>
       ) : (
@@ -37,7 +49,7 @@ function Event({ name, eventId, marketIds, loading, scores }) {
             setShowMarketList(true);
           }}
         >
-          show market
+          show more
         </a>
       )}
     </div>
@@ -55,13 +67,15 @@ Event.propTypes = {
   scores: PropTypes.shape({
     home: PropTypes.number,
     away: PropTypes.number
-  })
+  }),
+  alwaysShowMarkets: PropTypes.bool,
+  expandFirstMarket: PropTypes.bool
 };
 
 export default connect((state, props) => {
   const marketIds = props.marketIds || [];
 
-  // is loading when at least of the markets is loading
+  // is loading when at least one of the markets is loading
   const loading = _.isEmpty(marketIds)
     ? false
     : _.every(
