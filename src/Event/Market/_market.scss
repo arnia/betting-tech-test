@@ -1,0 +1,29 @@
+@import '../../_variables.scss';
+
+.Market {
+		border: 1px solid $color-blue-light;
+
+		&--header {
+				background: $color-blue-light;
+				padding: 1rem 1.5rem;
+				color:  $color-blue2;
+				border-bottom: 1px solid $color-blue-light;
+		}
+
+		&--notes {
+				padding: 1rem 1.5rem;
+				background: $color-blue-light2;
+		
+				color: $color-cyan;
+				fill: $color-cyan;
+
+				& > * {
+						vertical-align: middle;						
+				}
+		}
+
+		&--notes-bullet {
+				margin: 0 1rem;
+		}
+
+}

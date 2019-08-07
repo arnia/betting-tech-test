@@ -8,11 +8,16 @@ function MarketList({ markets }) {
     market => market.status.displayable && !_.isEmpty(market.outcomes)
   );
 
-  return _.orderyBy(filteredMarkets, ["displayOrder"]).map(market => (
+  if (filteredMarkets.length === 0) {
+    return <div>No markets available</div>;
+  }
+
+  return _.orderBy(filteredMarkets, ["displayOrder"]).map(market => (
     <Market
       key={market.marketId}
       name={market.name}
       outcomesData={market.outcomesData}
+      type={market.type}
     />
   ));
 }
@@ -25,7 +30,8 @@ MarketList.propTypes = {
   markets: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
-      outcomesData: PropTypes.shape({})
+      outcomesData: PropTypes.shape({}),
+      type: PropTypes.string
     })
   )
 };

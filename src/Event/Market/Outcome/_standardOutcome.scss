@@ -1,0 +1,30 @@
+@import '../../../_variables.scss';
+
+.StandardOutcome {
+		background: white;
+		border-bottom: 1px solid $color-blue-light;
+		display: flex;
+		justify-content: space-between;
+
+		&--name {
+				color: grey;
+				padding: 1rem;
+				padding-left: 2rem;
+		}
+
+		&--price {
+				width: 140px;
+				flex-shrink: 0;
+				flex-grow: 0;
+
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				border-left: 1px solid $color-blue-light;
+				background: $color-blue-light2;
+
+				color: $color-red;
+				font-weight: $font-weight-bold;
+		}
+}
