@@ -1,0 +1,13 @@
+@import '../../../_variables.scss';
+
+.OutcomeList {
+		&--win-draw-win {
+				display: flex;
+				& > * {
+						flex: 1;
+				}
+				& > *:not(:last-child) {
+						border-right: 1px solid $color-blue-light;
+				}
+		}
+}

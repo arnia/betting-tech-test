@@ -1,61 +1,113 @@
-import React, { useMemo } from "react";
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import _ from "lodash";
+import { connect } from "react-redux";
 import { ReactComponent as InfoIcon } from "./info.svg";
-import StandardOutcome from "./Outcome/StandardOutcome";
-import WinDrawWinOutcome from "./Outcome/WinDrawWinOutcome";
+import { ReactComponent as LoadingIcon } from "./loading.svg";
+import useDidUpdateEffect from "../../utils/useDidUpdateEffect";
+
+import { ReactComponent as ExpandIcon } from "../../expand-arrow.svg";
+import { ReactComponent as CollapseIcon } from "../../expand-button.svg";
+
+import OutcomeList from "./Outcome/OutcomeList";
+
 import "./_market.scss";
 
-function Market({ name, outcomesData, type, notes }) {
-  const ordoredOutcomes = useMemo(
-    () => _.orderBy(_.values(outcomesData), ["displayOrder"]),
-    [outcomesData]
-  );
+function Market({
+  marketId,
+  market,
+  expanded,
+  loading,
+  loadingOutcomes,
+  loadMarket
+}) {
+  const [showOutcomes, setShowOutcomes] = useState(expanded);
+
+  useDidUpdateEffect(() => {
+    setShowOutcomes(expanded);
+  }, [expanded]);
+
+  // Load the market on mount
+  useEffect(() => {
+    if (_.isEmpty(market)) {
+      loadMarket();
+    }
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="Market--header">
+        <div className="Market--loading">
+          <LoadingIcon width={30} height={30} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="Market">
-      <div className="Market--header">{name}</div>
-
-      {notes ? (
-        <div className="Market--notes">
-          <InfoIcon height={18} width={18} />
-          <span className="Market--notes-bullet">&bull;</span>
-          <span>{notes}</span>
+      <div
+        className="Market--header"
+        onClick={() => setShowOutcomes(!showOutcomes)}
+      >
+        <div>{market.name}</div>
+        <div>
+          {loadingOutcomes ? (
+            <div className="Market--loading">
+              <LoadingIcon height={30} width={30} />
+            </div>
+          ) : (
+            <>
+              {showOutcomes ? (
+                <ExpandIcon title="expand" height={20} width={20} />
+              ) : (
+                <CollapseIcon title="collapse" height={20} width={20} />
+              )}
+            </>
+          )}
         </div>
-      ) : null}
+      </div>
 
-      {type === "standard"
-        ? ordoredOutcomes.map(outcome => (
-            <StandardOutcome
-              key={outcome.outcomeId}
-              name={outcome.name}
-              price={outcome.price}
-              suspended={outcome.status.suspended}
-              displayable={outcome.status.displayable}
-            />
-          ))
-        : null}
+      {showOutcomes && !_.isEmpty(market) ? (
+        <>
+          {market.notes ? (
+            <div className="Market--notes">
+              <InfoIcon height={18} width={18} />
+              <span className="Market--notes-bullet">&bull;</span>
+              <span>{market.notes}</span>
+            </div>
+          ) : null}
 
-      {type === "win-draw-win" ? (
-        <div className="Market--win-draw-win">
-          {ordoredOutcomes.map(outcome => (
-            <WinDrawWinOutcome
-              key={outcome.outcomeId}
-              name={outcome.name}
-              type={outcome.type}
-              price={outcome.price}
-              suspended={outcome.status.suspended}
-              displayable={outcome.status.displayable}
-            />
-          ))}
-        </div>
+          <OutcomeList marketId={marketId} />
+        </>
       ) : null}
     </div>
   );
 }
 
 Market.defaultProps = {
-  outcomesData: {},
-  name: ""
+  market: {},
+  expanded: false
 };
 
-export default Market;
+Market.propTypes = {
+  marketId: PropTypes.number.isRequired,
+  market: PropTypes.shape({}),
+  expanded: PropTypes.bool,
+  loadMarket: PropTypes.func.isRequired
+};
+
+export default connect(
+  (state, props) => {
+    const market = state.markets[props.marketId];
+
+    return {
+      loading: market && market.loading,
+      loadingOutcomes: market && market.loadedOutcomes,
+      market: (market && market.data) || {}
+    };
+  },
+  (dispatch, props) => ({
+    loadMarket: () => dispatch({ type: "GET_MARKET", marketId: props.marketId })
+  })
+)(Market);

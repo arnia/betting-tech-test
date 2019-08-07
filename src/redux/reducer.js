@@ -21,38 +21,45 @@ export default function reducer(state = defaultState, action) {
       draft.events.data = action.events;
     }
 
-    if (action.type === "START_LOADING_MARKETS") {
-      (action.marketIds || []).forEach(id => {
-        draft.markets[id] = {
-          loading: true,
-          data: {}
-        };
-      });
+    if (action.type === "START_LOADING_MARKET") {
+      draft.markets[action.marketId] = {
+        loading: true,
+        data: {}
+      };
     }
 
     if (action.type === "SET_MARKET_DATA") {
-      const outcomes = _.get(
-        draft,
-        `markets['${action.marketId}'].outcomes`,
-        []
-      );
       draft.markets[action.market.marketId] = {
-        loading: outcomes.length > 0, // will make it true when we get the outcomes
+        loading: false,
         data: action.market
       };
     }
 
-    if (action.type === "SET_OUTCOME_DATA") {
-      const market = draft.markets[action.outcome.marketId].data;
+    if (action.type === "START_LOADING_OUTCOMES") {
+      const market = draft.markets[action.marketId].data;
 
       if (!market.outcomesData) {
-        market.outcomesData = {};
+        market.outcomesData = {
+          data: {},
+          loading: true
+        };
       }
 
-      market.outcomesData[action.outcome.outcomeId] = action.outcome;
+      market.loadingOutcomes = true;
+    }
 
-      if (_.keys(market.outcomesData).length === market.outcomes.length) {
-        draft.markets[action.outcome.marketId].loading = false;
+    if (action.type === "SET_OUTCOME_DATA") {
+      const market = draft.markets[action.outcome.marketId].data;
+      const outcomesData = market.outcomesData;
+
+      outcomesData.data[action.outcome.outcomeId] = action.outcome;
+
+      const loadedOutcomes = _.keys(outcomesData.data).length;
+      const allOutcomes = market.outcome;
+
+      if (loadedOutcomes === allOutcomes) {
+        market.loadingOutcomes = false;
+        outcomesData.loading = false;
       }
     }
 

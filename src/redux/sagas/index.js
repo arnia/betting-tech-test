@@ -1,7 +1,7 @@
 import { all, fork } from "redux-saga/effects";
 import handleSocketEvents from "./handleSocketEvents";
 import openWebSocketChannel from "./webSocketChannel";
-import getPrimaryMarketsWatcher from "./marketSaga";
+import { getMarketWatcher, getOutcomesWatcher } from "./marketSaga";
 import sendEventsRequestWatcher from "./eventSaga";
 
 export default function* rootSaga() {
@@ -9,6 +9,7 @@ export default function* rootSaga() {
     fork(openWebSocketChannel),
     fork(sendEventsRequestWatcher),
     fork(handleSocketEvents),
-    fork(getPrimaryMarketsWatcher)
+    fork(getMarketWatcher),
+    fork(getOutcomesWatcher)
   ]);
 }

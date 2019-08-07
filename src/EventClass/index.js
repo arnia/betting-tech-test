@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import useDidUpdateEffect from "../utils/useDidUpdateEffect";
 import "./_eventClass.scss";
-import { ReactComponent as ExpandIcon } from "./expand-arrow.svg";
-import { ReactComponent as CollapseIcon } from "./expand-button.svg";
+import { ReactComponent as ExpandIcon } from "../expand-arrow.svg";
+import { ReactComponent as CollapseIcon } from "../expand-button.svg";
 
 function EventClass({ name, children, expanded }) {
   const [showChildren, setShowChildren] = useState(expanded);
@@ -22,9 +22,9 @@ function EventClass({ name, children, expanded }) {
         <div>
           <div className="EventClass--toggleIcon">
             {showChildren ? (
-              <CollapseIcon title="collapse" height={30} width={30} />
-            ) : (
               <ExpandIcon title="expand" height={30} width={30} />
+            ) : (
+              <CollapseIcon title="collapse" height={30} width={30} />
             )}
           </div>
         </div>
