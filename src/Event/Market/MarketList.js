@@ -4,15 +4,17 @@ import _ from "lodash";
 import Market from "./Market";
 
 function MarketList({ markets }) {
-  return markets
-    .filter(market => market.status.displayable && !_.isEmpty(market.outcomes))
-    .map(market => (
-      <Market
-        key={market.marketId}
-        name={market.name}
-        outcomesData={market.outcomesData}
-      />
-    ));
+  const filteredMarkets = markets.filter(
+    market => market.status.displayable && !_.isEmpty(market.outcomes)
+  );
+
+  return _.orderyBy(filteredMarkets, ["displayOrder"]).map(market => (
+    <Market
+      key={market.marketId}
+      name={market.name}
+      outcomesData={market.outcomesData}
+    />
+  ));
 }
 
 MarketList.defaultProps = {
