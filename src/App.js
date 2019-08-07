@@ -1,25 +1,14 @@
 import React, { useEffect } from "react";
 import _ from "lodash";
-import { useDispatch, useSelector } from "react-redux";
+import { connect } from "react-redux";
 import EventClass from "./EventClass";
 import Event from "./Event";
 import "./_app.scss";
 
-function eventsSelector({ events }) {
-  return {
-    loading: events.loading,
-    groupedByClass: _.toPairs(_.groupBy(events.data, e => e.classId))
-  };
-}
-
-function App() {
-  const dispatch = useDispatch();
+function App({ loading, groupedByClass, getEvents }) {
   useEffect(() => {
-    dispatch({ type: "GET_EVENTS" });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    getEvents();
   }, []);
-
-  const { loading, groupedByClass } = useSelector(eventsSelector);
 
   if (loading) {
     return <div className="App">...loading</div>;
@@ -37,6 +26,7 @@ function App() {
             <Event
               key={event.eventId}
               name={event.name}
+              scores={event.scores}
               eventId={event.eventId}
               primaryMarketId={event.markets && event.markets[0]}
             />
@@ -47,4 +37,12 @@ function App() {
   );
 }
 
-export default App;
+export default connect(
+  ({ events }) => ({
+    loading: events.loading,
+    groupedByClass: _.toPairs(_.groupBy(events.data, e => e.classId))
+  }),
+  dispatch => ({
+    getEvents: () => dispatch({ type: "GET_EVENTS" })
+  })
+)(App);

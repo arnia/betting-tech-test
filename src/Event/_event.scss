@@ -4,4 +4,34 @@
 		padding: 2rem 7.5rem;
 		font-family: $open-sans;
 		font-size: 1.6rem;
+
+		&--header {
+				display: flex;
+				justify-content: space-between;
+		}
+
+		&--scores {
+				background: $color-blue;
+				border-radius: 8px;
+				padding: 8px;
+				color: white;
+		}
+
+		&--loading {
+				display: inline-flex;
+				animation-name: spin;
+				animation-duration: 2000ms;
+				animation-iteration-count: infinite;
+				animation-timing-function: linear;
+		}
 }
+
+@keyframes spin { 
+    from { 
+        transform: rotate(0deg); 
+    } to { 
+        transform: rotate(360deg); 
+    }
+}
+
+
