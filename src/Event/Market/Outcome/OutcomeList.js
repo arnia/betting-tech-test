@@ -1,8 +1,9 @@
 import React, { useMemo, useEffect } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
-import StandardOutcome from "./StandardOutcome";
-import WinDrawWinOutcome from "./WinDrawWinOutcome";
+import StandardOutcomes from "./StandardOutcomes";
+import WinDrawWinOutcomes from "./WinDrawWinOutcomes";
+import CorrectScoreOutcomes from "./CorrectScoreOutcomes";
 import "./_outcomeList.scss";
 
 function OutcomeList({
@@ -24,15 +25,7 @@ function OutcomeList({
   if (marketType === "standard") {
     return (
       <div className="OutcomeList--standard">
-        {ordoredOutcomes.map(outcome => (
-          <StandardOutcome
-            key={outcome.outcomeId}
-            name={outcome.name}
-            price={outcome.price}
-            suspended={outcome.status.suspended}
-            displayable={outcome.status.displayable}
-          />
-        ))}
+        <StandardOutcomes ordoredOutcomes={ordoredOutcomes} />
       </div>
     );
   }
@@ -40,16 +33,15 @@ function OutcomeList({
   if (marketType === "win-draw-win") {
     return (
       <div className="OutcomeList--win-draw-win">
-        {ordoredOutcomes.map(outcome => (
-          <WinDrawWinOutcome
-            key={outcome.outcomeId}
-            name={outcome.name}
-            type={outcome.type}
-            price={outcome.price}
-            suspended={outcome.status.suspended}
-            displayable={outcome.status.displayable}
-          />
-        ))}
+        <WinDrawWinOutcomes ordoredOutcomes={ordoredOutcomes} />
+      </div>
+    );
+  }
+
+  if (marketType === "correct-score") {
+    return (
+      <div>
+        <CorrectScoreOutcomes ordoredOutcomes={ordoredOutcomes} />
       </div>
     );
   }

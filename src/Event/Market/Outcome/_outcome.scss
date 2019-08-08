@@ -1,0 +1,32 @@
+@import '../../../_variables.scss';
+
+.Outcome {
+		background: white;
+		border-bottom: 1px solid $color-blue-light;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		&--name {
+				color: black;
+				text-transform: capitalize;
+				margin-right: 1rem;
+		}
+
+		&--price {
+				color: $color-red;
+				font-weight: $font-weight-bold;
+		}
+
+		&__suspended {
+				background-color: $color-grey-light2;
+				color: $color-grey;
+
+				&  * {
+						color: $color-grey;
+				}
+		}
+
+
+}

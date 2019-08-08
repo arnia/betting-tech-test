@@ -1,0 +1,30 @@
+@import '../../../_variables.scss';
+
+.CorrectScoreOutcomes {
+		&--row {
+				display: flex;
+				& > * {
+						flex: 1;
+						min-height: 4.5rem;
+				}
+
+				& > *:not(:last-child) {
+						border-right: 1px solid $color-blue-light2;
+				}
+		}
+
+		&--header {
+				min-height: 4rem;
+				display: flex;
+				align-items: center;
+				background: $color-blue-light2 ;
+				
+				
+				& > * {
+						flex: 1;
+						text-transform: capitalize;
+						text-align: center;
+						color: $color-blue-light3;
+				}
+		}
+}

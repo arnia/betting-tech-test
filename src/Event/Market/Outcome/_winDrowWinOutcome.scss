@@ -1,28 +1,10 @@
 @import '../../../_variables.scss';
 
 .WinDrawWinOutcome {
-		background: white;
-		border-bottom: 1px solid $color-blue-light;
-		height: 4.5rem;
-
 		display: flex;
-		justify-content: center;
-		align-items: center;
 
-		&--name {
-				color: black;
-				padding: 1rem;
-				padding-left: 2rem;
-				text-transform: capitalize;
-		}
-
-		&--price {
-				color: $color-red;
-				font-weight: $font-weight-bold;
-		}
-
-		&__suspended {
-				background-color: $color-grey-light2;
-				color: $color-grey;
+		& > * {
+				flex: 1;
+				min-height: 4.5rem;
 		}
 }

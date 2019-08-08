@@ -10,4 +10,11 @@
 						border-right: 1px solid $color-blue-light;
 				}
 		}
+
+		&--correct-score-row {
+				display: flex;
+				& > * {
+						flex: 1;
+				}
+		}
 }

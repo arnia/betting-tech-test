@@ -37,11 +37,6 @@ function LiveEventsPage({ loading, events, getEvents }) {
           key={eventId}
           name={
             <div className="Events--name">
-              <Subscribe
-                className="Events--subscribe"
-                to="event"
-                id={eventId}
-              />
               <NavLink title="Go to event's page" to={`/${eventId}`}>
                 {event.name}
               </NavLink>

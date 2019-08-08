@@ -3,63 +3,14 @@ import { takeEvery, put } from "redux-saga/effects";
 function* handleSubscriptionEvents({ payload }) {
   if (payload.type === "OUTCOME_STATUS") {
     yield put({ type: "CHANGE_OUTCOME_STATUS", data: payload.data });
-
-    // data: {
-    //  eventId: 21249937,
-    //  marketId: 93649502,
-    //  outcomeId: 367529410,
-    //  price: {
-    //    decimal: '34',
-    //    num: '33',
-    //    den: '1'
-    //  },
-    //  status: {
-    //    active: true,
-    //    resulted: false,
-    //    cashoutable: false,
-    //    displayable: true,
-    //    suspended: true,
-    //    result: '-'
-    //  }
   }
 
   if (payload.type === "MARKET_STATUS") {
     yield put({ type: "CHANGE_MARKET_STATUS", data: payload.data });
-    //  data: {
-    //   eventId: 21249937,
-    //   marketId: 93648886,
-    //   status: {
-    //     active: true,
-    //     resulted: false,
-    //     cashoutable: false,
-    //     displayable: true,
-    //     suspended: true,
-    //     noExtraTime: false,
-    //     live: true
-    //   }
-    // }
   }
 
   if (payload.type === "PRICE_CHANGE") {
     yield put({ type: "PRICE_CHANGE_STATUS", data: payload.data });
-    //     data: {
-    //   eventId: 21249937,
-    //   marketId: 93649141,
-    //   outcomeId: 367528101,
-    //   price: {
-    //     decimal: '1.11',
-    //     num: '1',
-    //     den: '9'
-    //   },
-    //   status: {
-    //     active: true,
-    //     resulted: false,
-    //     cashoutable: false,
-    //     displayable: true,
-    //     suspended: true,
-    //     result: '-'
-    //   }
-    // }
   }
 }
 
@@ -70,6 +21,10 @@ function* receiveSocketEvents({ payload }) {
       events: payload.data,
       loading: false
     });
+  }
+
+  if (payload.type === "EVENT_DATA") {
+    yield put({ type: "SET_LIVE_EVENTS", events: [payload.data] });
   }
 
   if (payload.type === "MARKET_DATA") {
