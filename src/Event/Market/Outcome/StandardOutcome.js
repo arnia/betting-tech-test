@@ -19,11 +19,13 @@ function StandardOutcome({ name, price, suspended, displayable }) {
     <div className="StandardOutcome">
       <div className="StandardOutcome--name">{name}</div>
       {displayable ? (
-        <div className="StandardOutcome--price">
+        <div className="StandardOutcome--price StandardOutcome--price__value">
           <Price price={price} />
         </div>
       ) : (
-        "-"
+        <div className="StandardOutcome--price StandardOutcome--price__no-value">
+          -
+        </div>
       )}
     </div>
   );

@@ -60,10 +60,19 @@ function OutcomeList({
 export default connect(
   (state, props) => {
     const market = state.markets[props.marketId] || {};
+    const outcomesData = (market.data.outcomes || []).map(outcomeId =>
+      _.get(market, `data.outcomesData.data['${outcomeId}']`, {
+        outcomeId,
+        name: "loading...",
+        status: {
+          displayable: false
+        }
+      })
+    );
 
     return {
       marketType: _.get(market, "data.type"),
-      outcomesData: _.values(_.get(market, "data.outcomesData.data", {}))
+      outcomesData
     };
   },
   (dispatch, props) => ({
