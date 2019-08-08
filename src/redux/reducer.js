@@ -49,6 +49,17 @@ export default function reducer(state = defaultState, action) {
         loading: false,
         data: action.market
       };
+
+      // order event's markets after each load
+      const event = draft.events[action.market.eventId];
+      const orderedMarkets = _.orderBy(
+        (event.markets || []).map(id =>
+          draft.markets[id] ? draft.markets[id] : { marketId: id }
+        ),
+        ["displayOrder"]
+      );
+
+      event.markets = orderedMarkets.map(m => m.marketId);
     }
 
     if (action.type === "START_LOADING_OUTCOMES") {

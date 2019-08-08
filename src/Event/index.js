@@ -64,4 +64,4 @@ export default connect((state, props) => {
       );
 
   return { loading };
-})(Event);
+})(React.memo(Event));
