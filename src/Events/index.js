@@ -2,9 +2,10 @@ import React, { useEffect, useMemo } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
-import EventClass from "./EventClass";
-import Event from "./Event";
-import "./_app.scss";
+import EventClass from "../EventClass";
+import Event from "../Event";
+import Subscribe from "../Subscribe";
+import "./_events.scss";
 
 function toEventsModel(events) {
   const filtered = _.toPairs(
@@ -35,9 +36,16 @@ function LiveEventsPage({ loading, events, getEvents }) {
         <Event
           key={eventId}
           name={
-            <NavLink title="Go to event's page" to={`/${eventId}`}>
-              {event.name}
-            </NavLink>
+            <div className="Events--name">
+              <Subscribe
+                className="Events--subscribe"
+                to="event"
+                id={eventId}
+              />
+              <NavLink title="Go to event's page" to={`/${eventId}`}>
+                {event.name}
+              </NavLink>
+            </div>
           }
           scores={event.scores}
           eventId={eventId}

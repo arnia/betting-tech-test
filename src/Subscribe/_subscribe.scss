@@ -1,0 +1,17 @@
+@import '../_variables.scss';
+
+.Subscribe {
+		display: inline-flex;
+
+		& > span {
+				display: inline-flex;
+		}
+
+		&:hover {
+				cursor: pointer;
+		}
+
+		& svg {
+				fill: $color-grey;
+		}
+}

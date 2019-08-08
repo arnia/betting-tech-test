@@ -43,7 +43,7 @@ export default connect(
   (dispatch, props) => ({
     getEvent: () => {
       const eventId = _.get(props, "match.params.eventId", "");
-      dispatch({ type: "GET_EVENT", eventId });
+      //dispatch({ type: "GET_EVENT", eventId });
     }
   })
 )(EventOverview);

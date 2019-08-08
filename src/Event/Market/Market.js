@@ -8,6 +8,7 @@ import useDidUpdateEffect from "../../utils/useDidUpdateEffect";
 
 import { ReactComponent as ExpandIcon } from "../../expand-arrow.svg";
 import { ReactComponent as CollapseIcon } from "../../expand-button.svg";
+import Subscribe from "../../Subscribe";
 
 import OutcomeList from "./Outcome/OutcomeList";
 
@@ -50,7 +51,11 @@ function Market({
         className="Market--header"
         onClick={() => setShowOutcomes(!showOutcomes)}
       >
-        <div>{market.name}</div>
+        <div className="Market--name">
+          <Subscribe className="Market--subscribe" to="market" id={marketId} />
+
+          {market.name}
+        </div>
         <div>
           {loadingOutcomes ? (
             <div className="Market--loading">

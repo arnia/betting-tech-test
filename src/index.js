@@ -10,7 +10,7 @@ import App from "./App";
 import "./_variables.scss";
 import "./_reset.scss";
 
-import Events from "./EventsPage";
+import Events from "./Events";
 import EventOverview from "./EventOverview";
 
 ReactDOM.render(
