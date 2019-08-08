@@ -17,7 +17,19 @@ function EventOverview({ loading, data, errorMessage, getEvent }) {
     return <div>...loading</div>;
   }
 
-  return "TODO";
+  if (_.isEmpty(data)) {
+    return <div>data unavailable</div>;
+  }
+
+  return (
+    <Event
+      name={data.name}
+      scores={data.scores}
+      eventId={data.eventId}
+      marketIds={data.markets}
+      expandFirstNMarkets={10}
+    />
+  );
 }
 
 export default connect(

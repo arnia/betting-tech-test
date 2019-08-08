@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import _ from "lodash";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -11,11 +11,8 @@ function Event({
   marketIds,
   loading,
   scores,
-  alwaysShowMarkets,
-  expandFirstMarket
+  expandFirstNMarkets
 }) {
-  const [showMarketList, setShowMarketList] = useState(false);
-
   return (
     <div className="Event">
       <div className="Event--header">
@@ -29,35 +26,18 @@ function Event({
         </div>
       </div>
 
-      {alwaysShowMarkets || showMarketList ? (
-        <div className="Event--market">
-          {marketIds.map((id, i) => (
-            <Market
-              key={id}
-              marketId={id}
-              expanded={expandFirstMarket ? i === 0 : false}
-            />
-          ))}
-        </div>
-      ) : (
-        <a
-          href="#"
-          alt="showMarket"
-          className="Event--showMarket"
-          onClick={e => {
-            e.preventDefault();
-            setShowMarketList(true);
-          }}
-        >
-          show more
-        </a>
-      )}
+      <div className="Event--market">
+        {marketIds.map((id, i) => (
+          <Market key={id} marketId={id} expanded={i < expandFirstNMarkets} />
+        ))}
+      </div>
     </div>
   );
 }
 
 Event.defaultProps = {
-  marketIds: []
+  marketIds: [],
+  expandFirstNMarkets: 0
 };
 
 Event.propTypes = {
@@ -68,8 +48,7 @@ Event.propTypes = {
     home: PropTypes.number,
     away: PropTypes.number
   }),
-  alwaysShowMarkets: PropTypes.bool,
-  expandFirstMarket: PropTypes.bool
+  expandFirstNMarkets: PropTypes.number
 };
 
 export default connect((state, props) => {

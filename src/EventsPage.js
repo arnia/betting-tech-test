@@ -42,7 +42,6 @@ function LiveEventsPage({ loading, events, getEvents }) {
           scores={event.scores}
           eventId={eventId}
           marketIds={event.markets}
-          alwaysShowMarkets
         />
       ))}
     </EventClass>
