@@ -3,7 +3,11 @@ import _ from "lodash";
 
 function* receiveSocketEvents({ payload }) {
   if (payload.type === "LIVE_EVENTS_DATA") {
-    yield put({ type: "SET_EVENTS", events: payload.data });
+    yield put({
+      type: "SET_LIVE_EVENTS",
+      events: payload.data,
+      loading: false
+    });
   }
 
   if (payload.type === "MARKET_DATA") {

@@ -4,6 +4,7 @@ import _ from "lodash";
 const defaultState = {
   eventsWithPrimaryMarket: { loading: false },
   events: {},
+  eventsLoading: false,
   markets: {},
   settings: {
     showDecimalPrices: false
@@ -13,33 +14,27 @@ const defaultState = {
 export default function reducer(state = defaultState, action) {
   return produce(state, draft => {
     if (action.type === "START_LOADING_EVENTS") {
-      draft.eventsWithPrimaryMarket.loading = true;
-      draft.eventsWithPrimaryMarket.data = [];
+      draft.eventsLoading = true;
     }
 
-    if (action.type === "START_LOADING_EVENT") {
-      draft.events[action.eventId] = {
-        loading: true,
-        data: {}
-      };
+    if (action.type === "SET_LIVE_EVENTS") {
+      let events = {};
+      (action.events || []).forEach(event => {
+        draft.eventsLoading = action.loading;
+        events[event.eventId] = {
+          loading: false,
+          eventId: event.eventId,
+          data: event
+        };
+      });
+      draft.events = events;
     }
 
     if (action.type === "EVENT_NOT_FOUND") {
       draft.events[action.eventId] = {
         loading: false,
-        errorMessage: action.errorMessage,
-        data: {}
+        errorMessage: action.errorMessage
       };
-    }
-
-    if (action.type === "SET_EVENT") {
-      draft.event[action.eventId].loading = false;
-      draft.event[action.eventId].data = action.event;
-    }
-
-    if (action.type === "SET_EVENTS") {
-      draft.eventsWithPrimaryMarket.loading = false;
-      draft.eventsWithPrimaryMarket.data = action.events;
     }
 
     if (action.type === "START_LOADING_MARKET") {

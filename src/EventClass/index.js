@@ -4,8 +4,10 @@ import useDidUpdateEffect from "../utils/useDidUpdateEffect";
 import "./_eventClass.scss";
 import { ReactComponent as ExpandIcon } from "../expand-arrow.svg";
 import { ReactComponent as CollapseIcon } from "../expand-button.svg";
+// TODO: move this
+import { ReactComponent as LoadingIcon } from "../Event/Market/loading.svg";
 
-function EventClass({ name, children, expanded }) {
+function EventClass({ name, loading, children, expanded }) {
   const [showChildren, setShowChildren] = useState(expanded);
 
   useDidUpdateEffect(() => {
@@ -18,7 +20,14 @@ function EventClass({ name, children, expanded }) {
         className="EventClass--header"
         onClick={() => setShowChildren(!showChildren)}
       >
-        <div className="EventClass--name">{name}</div>
+        <div className="EventClass--name">
+          {name}
+          {loading ? (
+            <div className="EventClass--loading">
+              <LoadingIcon height={30} width={30} />
+            </div>
+          ) : null}
+        </div>
         <div>
           <div className="EventClass--toggleIcon">
             {showChildren ? (
