@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Price from "../../../Price";
+import Price from "../Price";
 import "./_outcome.scss";
 
 function Outcome({ name, price, suspended, displayable }) {

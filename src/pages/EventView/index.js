@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
-import Event from "../Event";
-import Subscribe from "../Subscribe";
+import Event from "../../components/Event";
+import Subscribe from "../../components/Subscribe";
 import "./_eventView.scss";
 
 function EventView({ loading, data, errorMessage, getEvent }) {

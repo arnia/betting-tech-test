@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import _ from "lodash";
 import { connect } from "react-redux";
-import { ReactComponent as InfoIcon } from "./info.svg";
-import { ReactComponent as LoadingIcon } from "./loading.svg";
+import { ReactComponent as InfoIcon } from "../info.svg";
+import { ReactComponent as LoadingIcon } from "../loading.svg";
 import useDidUpdateEffect from "../../utils/useDidUpdateEffect";
 
-import { ReactComponent as ExpandIcon } from "../../expand-arrow.svg";
-import { ReactComponent as CollapseIcon } from "../../expand-button.svg";
-import Subscribe from "../../Subscribe";
+import { ReactComponent as ExpandIcon } from "../expand-arrow.svg";
+import { ReactComponent as CollapseIcon } from "../expand-button.svg";
+import Subscribe from "../Subscribe";
 
-import OutcomeList from "./Outcome/OutcomeList";
+import OutcomeList from "../Outcome/OutcomeList";
 
 import "./_market.scss";
 

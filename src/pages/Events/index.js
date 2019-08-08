@@ -2,9 +2,8 @@ import React, { useEffect, useMemo } from "react";
 import _ from "lodash";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
-import EventClass from "../EventClass";
-import Event from "../Event";
-import Subscribe from "../Subscribe";
+import EventClass from "../../components/EventClass";
+import Event from "../../components/Event";
 import "./_events.scss";
 
 function toEventsModel(events) {

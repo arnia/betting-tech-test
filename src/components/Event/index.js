@@ -3,7 +3,7 @@ import _ from "lodash";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import "./_event.scss";
-import Market from "./Market/Market";
+import Market from "../Market/Market";
 
 function Event({
   name,

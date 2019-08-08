@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import useDidUpdateEffect from "../utils/useDidUpdateEffect";
-import "./_eventClass.scss";
+import useDidUpdateEffect from "../../utils/useDidUpdateEffect";
 import { ReactComponent as ExpandIcon } from "../expand-arrow.svg";
 import { ReactComponent as CollapseIcon } from "../expand-button.svg";
-// TODO: move this
-import { ReactComponent as LoadingIcon } from "../Event/Market/loading.svg";
+import { ReactComponent as LoadingIcon } from "../loading.svg";
+import "./_eventClass.scss";
 
 function EventClass({ name, loading, children, expanded }) {
   const [showChildren, setShowChildren] = useState(expanded);

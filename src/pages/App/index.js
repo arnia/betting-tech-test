@@ -1,5 +1,5 @@
 import React from "react";
-import TogglePriceFormat from "./TogglePrice";
+import TogglePriceFormat from "../../components/TogglePrice";
 import "./_app.scss";
 
 function App({ children }) {
