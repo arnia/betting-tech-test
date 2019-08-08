@@ -15,29 +15,30 @@ export function* getMarketWatcher() {
 }
 
 function* getOutcomes(action) {
-  const market = yield select(state =>
-    _.get(state, `markets['${action.marketId}'].data`, [])
-  );
+  const [marketData, outcomes] = yield select(state => [
+    _.get(state, `markets['${action.marketId}'].data`, {}),
+    state.outcomes
+  ]);
 
-  if (_.isEmpty(market.outcomes)) {
+  if (_.isEmpty(marketData.outcomes)) {
     return;
   }
 
-  const loadedOutcomes = _.get(market, "outcomesData.data", {});
-  const loadedOutcomesCount = _.keys(loadedOutcomes).length;
-  const allOutcomes = market.outcomes.length;
+  const missingOutcomes = marketData.outcomes.filter(id =>
+    _.isEmpty(_.get(outcomes, id + ".data", {}))
+  ).length;
 
   // if all outcomes are loaded
-  if (loadedOutcomesCount === allOutcomes) {
+  if (missingOutcomes === 0) {
     return;
   }
 
   yield put({
     type: "START_LOADING_OUTCOMES",
-    marketId: action.marketId
+    outcomesIds: marketData.outcomes
   });
 
-  const reqs = market.outcomes.map(id =>
+  const reqs = marketData.outcomes.map(id =>
     put({
       type: "SOCKET_SEND",
       payload: { type: "getOutcome", id }

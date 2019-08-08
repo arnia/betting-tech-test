@@ -6,6 +6,7 @@ const defaultState = {
   events: {},
   eventsLoading: false,
   markets: {},
+  outcomes: {},
   settings: {
     showDecimalPrices: false
   }
@@ -63,30 +64,29 @@ export default function reducer(state = defaultState, action) {
     }
 
     if (action.type === "START_LOADING_OUTCOMES") {
-      const market = draft.markets[action.marketId].data;
-
-      if (!market.outcomesData) {
-        market.outcomesData = {
-          data: {},
-          loading: true
-        };
-      }
-
+      const market = _.get(draft, `markets['${action.marketId}'].data`, {});
+      (market.outcomes || []).forEach(id => {
+        _.set(draft, `outcomes['${id}']`, {
+          loading: true,
+          data: {}
+        });
+      });
       market.loadingOutcomes = true;
     }
 
     if (action.type === "SET_OUTCOME_DATA") {
       const market = draft.markets[action.outcome.marketId].data;
-      const outcomesData = market.outcomesData;
+      draft.outcomes[action.outcome.outcomeId] = {
+        loading: false,
+        data: action.outcome
+      };
 
-      outcomesData.data[action.outcome.outcomeId] = action.outcome;
+      const missingOutcomes = (market.outcomes || []).filter(id =>
+        _.isEmpty(_.get(draft, "outcomes[id].data", {}))
+      ).length;
 
-      const loadedOutcomes = _.keys(outcomesData.data).length;
-      const allOutcomes = market.outcome;
-
-      if (loadedOutcomes === allOutcomes) {
+      if (missingOutcomes === 0) {
         market.loadingOutcomes = false;
-        outcomesData.loading = false;
       }
     }
 

@@ -61,7 +61,7 @@ export default connect(
   (state, props) => {
     const market = state.markets[props.marketId] || {};
     const outcomesData = (market.data.outcomes || []).map(outcomeId =>
-      _.get(market, `data.outcomesData.data['${outcomeId}']`, {
+      _.get(state, `outcomes['${outcomeId}'].data`, {
         outcomeId,
         name: "loading...",
         status: {

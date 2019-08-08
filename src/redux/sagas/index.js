@@ -26,7 +26,7 @@ function* disableSubscription({ to, id }) {
   yield put({
     type: "SOCKET_SEND",
     payload: {
-      type: "subscribe",
+      type: "unsubscribe",
       keys: [key]
     }
   });
