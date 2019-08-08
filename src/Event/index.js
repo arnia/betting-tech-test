@@ -61,7 +61,7 @@ Event.defaultProps = {
 };
 
 Event.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.node,
   eventId: PropTypes.number.isRequired,
   marketIds: PropTypes.arrayOf(PropTypes.number),
   scores: PropTypes.shape({

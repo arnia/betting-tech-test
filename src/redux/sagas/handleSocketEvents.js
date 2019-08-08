@@ -13,6 +13,14 @@ function* receiveSocketEvents({ payload }) {
   if (payload.type === "OUTCOME_DATA") {
     yield put({ type: "SET_OUTCOME_DATA", outcome: payload.data });
   }
+
+  if (payload.type === "ERROR" && payload.data.actionType === "getEvent") {
+    yield put({
+      type: "EVENT_NOT_FOUND",
+      eventId: payload.data.id,
+      errorMessage: payload.data.message
+    });
+  }
 }
 
 function* receiveSocketEventsWatcher() {

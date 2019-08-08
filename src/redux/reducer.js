@@ -2,7 +2,8 @@ import produce from "immer";
 import _ from "lodash";
 
 const defaultState = {
-  events: { loading: false },
+  eventsWithPrimaryMarket: { loading: false },
+  events: {},
   markets: {},
   settings: {
     showDecimalPrices: false
@@ -12,13 +13,33 @@ const defaultState = {
 export default function reducer(state = defaultState, action) {
   return produce(state, draft => {
     if (action.type === "START_LOADING_EVENTS") {
-      draft.events.loading = true;
-      draft.events.data = [];
+      draft.eventsWithPrimaryMarket.loading = true;
+      draft.eventsWithPrimaryMarket.data = [];
+    }
+
+    if (action.type === "START_LOADING_EVENT") {
+      draft.events[action.eventId] = {
+        loading: true,
+        data: {}
+      };
+    }
+
+    if (action.type === "EVENT_NOT_FOUND") {
+      draft.events[action.eventId] = {
+        loading: false,
+        errorMessage: action.errorMessage,
+        data: {}
+      };
+    }
+
+    if (action.type === "SET_EVENT") {
+      draft.event[action.eventId].loading = false;
+      draft.event[action.eventId].data = action.event;
     }
 
     if (action.type === "SET_EVENTS") {
-      draft.events.loading = false;
-      draft.events.data = action.events;
+      draft.eventsWithPrimaryMarket.loading = false;
+      draft.eventsWithPrimaryMarket.data = action.events;
     }
 
     if (action.type === "START_LOADING_MARKET") {

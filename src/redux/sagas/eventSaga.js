@@ -9,6 +9,19 @@ function* sendEventsRequest() {
   });
 }
 
-export default function* sendEventsRequestWatcher() {
+export function* sendEventsRequestWatcher() {
   yield takeEvery("GET_EVENTS", sendEventsRequest);
+}
+
+function* sendEventRequest(action) {
+  yield put({ type: "START_LOADING_EVENT", eventId: action.eventId });
+
+  yield put({
+    type: "SOCKET_SEND",
+    payload: { type: "getEvent", id: action.eventId }
+  });
+}
+
+export function* sendEventRequestWatcher() {
+  yield takeEvery("GET_EVENT", sendEventRequest);
 }

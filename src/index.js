@@ -11,6 +11,7 @@ import "./_variables.scss";
 import "./_reset.scss";
 
 import Events from "./EventsPage";
+import EventOverview from "./EventOverview";
 
 ReactDOM.render(
   <Provider store={store}>
@@ -18,7 +19,7 @@ ReactDOM.render(
       <App>
         <Switch>
           <Route exact path="/" component={Events} />
-          <Route exact path="/:eventId" render={() => "Not implemented yet"} />
+          <Route exact path="/:eventId" component={EventOverview} />
           <Route render={() => "Not found"} />
         </Switch>
       </App>
