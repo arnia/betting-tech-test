@@ -8,31 +8,32 @@ import "./_bet.scss";
 function Bet({ id, outcome, market, event, removeFromBetSlip }) {
   return (
     <div className="Bet">
-      <div className="Bet-info">
-        <div className="Bet--header">
-          <div className="Bet--event-name">{_.get(event, "data.name", "")}</div>
-          <div className="Bet--remove" onClick={removeFromBetSlip}>
-            &#10006;
+      <div className="Bet--header">
+        <div className="Bet--event-name">{_.get(event, "data.name", "")}</div>
+
+        <div className="Bet--remove" onClick={removeFromBetSlip}>
+          &#10006;
+        </div>
+      </div>
+
+      <div className="Bet--row">
+        <div className="Bet--col">
+          <div className="Bet--market-name">
+            {_.get(market, "data.name", "")}
+          </div>
+
+          <div className="Bet--outcome-name">
+            {_.get(outcome, "data.name", "")}
           </div>
         </div>
 
-        <div className="Bet--row">
-          <div className="Bet--col">
-            <div className="Bet--market-name">
-              {_.get(market, "data.name", "")}
-            </div>
-            <div className="Bet--outcome-name">
-              {_.get(outcome, "data.name", "")}
-            </div>
-          </div>
-          <div className="Bet--col">
-            <Outcome
-              id={outcome.data.outcomeId}
-              price={outcome.data.price}
-              suspended={outcome.data.status.suspended}
-              displayable={outcome.data.status.displayable}
-            />
-          </div>
+        <div className="Bet--col">
+          <Outcome
+            id={outcome.data.outcomeId}
+            price={outcome.data.price}
+            suspended={outcome.data.status.suspended}
+            displayable={outcome.data.status.displayable}
+          />
         </div>
       </div>
     </div>

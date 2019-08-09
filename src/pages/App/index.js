@@ -12,7 +12,9 @@ function App({ children }) {
 
       {children}
 
-      <BetSlip />
+      <div className="App--betSlip">
+        <BetSlip />
+      </div>
     </div>
   );
 }

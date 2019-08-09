@@ -4,6 +4,14 @@
 		&--toggle-price-format {
 				margin-bottom: 1rem;
 		}
+
+		&--betSlip {
+				position: fixed;
+				bottom: 0;
+				left: 1rem;
+				width: 50rem;
+				box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
+		}
 }
 
 @keyframes spin { 

@@ -30,9 +30,9 @@ function EventClass({ name, loading, children, expanded }) {
         <div>
           <div className="EventClass--toggleIcon">
             {showChildren ? (
-              <ExpandIcon title="expand" height={30} width={30} />
+              <ExpandIcon title="collapse" height={30} width={30} />
             ) : (
-              <CollapseIcon title="collapse" height={30} width={30} />
+              <CollapseIcon title="expand" height={30} width={30} />
             )}
           </div>
         </div>
