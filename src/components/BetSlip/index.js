@@ -30,7 +30,7 @@ function BetSlip({ betSlip }) {
       {expanded ? (
         <div className="BetSlip--content">
           {betSlip.map(id => (
-            <Bet id={id} />
+            <Bet key={id} id={id} />
           ))}
         </div>
       ) : null}
@@ -43,7 +43,9 @@ BetSlip.defaultProps = {
 };
 
 BetSlip.propTypes = {
-  betSlip: PropTypes.arrayOf(PropTypes.string)
+  betSlip: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  )
 };
 
 export default connect(state => ({ betSlip: state.betSlip }))(BetSlip);
