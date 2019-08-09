@@ -1,5 +1,6 @@
 import React from "react";
 import TogglePriceFormat from "../../components/TogglePrice";
+import BetSlip from "../../components/BetSlip";
 import "./_app.scss";
 
 function App({ children }) {
@@ -10,6 +11,8 @@ function App({ children }) {
       </div>
 
       {children}
+
+      <BetSlip />
     </div>
   );
 }

@@ -30,7 +30,7 @@ function betSlipReducer(draft, action) {
   }
 
   if (action.type === "BET_SLIP_REMOVE") {
-    draft.betSlip = draft.betSlip.filter(b => b.outcomeId !== action.outcomeId);
+    draft.betSlip = draft.betSlip.filter(id => id !== action.outcomeId);
   }
 }
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import _ from "lodash";
 import PropTypes from "prop-types";
+import useDidUpdateEffect from "../../utils/useDidUpdateEffect";
 import { connect } from "react-redux";
 import { ReactComponent as SubscribeIcon } from "./subscribe.svg";
 import { ReactComponent as SubscribedIcon } from "./subscribed.svg";
@@ -16,6 +17,10 @@ function Subscribe({
   show
 }) {
   const [subscribed, setSubscribe] = useState(isSubscribed);
+
+  useDidUpdateEffect(() => {
+    setSubscribe(isSubscribed);
+  }, [isSubscribed]);
 
   function handleToggle(e) {
     e.stopPropagation();

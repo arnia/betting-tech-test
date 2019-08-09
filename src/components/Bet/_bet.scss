@@ -1,0 +1,41 @@
+@import '../../_variables';
+
+.Bet {
+
+		&--header {
+				display: flex;
+				justify-content: space-between;
+				padding-right: 1rem;
+		}
+
+		&--remove {
+				cursor: pointer;
+		}
+
+		&--event-name {
+				font-size: 1.7rem;
+				color: black;
+				margin-bottom: 1rem;
+		}
+
+		&--market-name {
+				font-size: 1.5rem;
+				color: $color-blue2;
+				flex: 1;
+
+		}
+
+		&--outcome-name {
+				font-size: 1.5rem;
+				color: $color-blue2;
+				flex: 1;
+		}
+
+		&--row {
+				display: flex;
+		}
+
+		&--col {
+				flex: 1;
+		}
+}

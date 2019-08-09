@@ -59,6 +59,7 @@ export default connect(
     addToBetSlip: () => {
       if (props.id) {
         dispatch({ type: "BET_SLIP_ADD", outcomeId: props.id });
+        dispatch({ type: "SUBSCRIBE", to: "outcome", id: props.id });
       }
     }
   })
