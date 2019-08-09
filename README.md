@@ -14,5 +14,5 @@ It expects to find an open websocket at `ws://localhost:8889`
 ## Stack
 
 I used `reactJS` with `redux` to manage the state and `redux-saga` to make
-the communication with external event sources easier. Also routing I used `react-router`
+the communication with external event sources easier. Also for routing I used `react-router`
 
