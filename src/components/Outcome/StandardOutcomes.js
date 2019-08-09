@@ -18,6 +18,7 @@ function StandardOutcomes({ ordoredOutcomes }) {
 
           <div className="StandardOutcome--outcome">
             <Outcome
+              id={outcome.outcomeId}
               price={outcome.price}
               suspended={outcome.status.suspended}
               displayable={outcome.status.displayable}

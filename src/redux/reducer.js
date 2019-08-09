@@ -2,7 +2,6 @@ import produce from "immer";
 import _ from "lodash";
 
 const defaultState = {
-  eventsWithPrimaryMarket: { loading: false },
   events: {},
   eventsLoading: false,
   markets: {},
@@ -14,8 +13,26 @@ const defaultState = {
     events: {},
     markets: {},
     outcomes: {}
-  }
+  },
+  betSlip: []
 };
+
+function betSlipReducer(draft, action) {
+  if (action.type === "BET_SLIP_ADD") {
+    const alreadyAdded = _.find(draft.betSlip, id => id === action.outcomeId);
+
+    if (!alreadyAdded) {
+      const outcome = draft.outcomes[action.outcomeId];
+      if (outcome.data) {
+        draft.betSlip.unshift(action.outcomeId);
+      }
+    }
+  }
+
+  if (action.type === "BET_SLIP_REMOVE") {
+    draft.betSlip = draft.betSlip.filter(b => b.outcomeId !== action.outcomeId);
+  }
+}
 
 function eventsReducer(draft, action) {
   if (action.type === "START_LOADING_EVENTS") {
@@ -78,6 +95,7 @@ function outcomesReducer(draft, action) {
     (market.outcomes || []).forEach(id => {
       _.set(draft, `outcomes['${id}']`, {
         loading: true,
+        outcomeId: id,
         data: {}
       });
     });
@@ -88,6 +106,7 @@ function outcomesReducer(draft, action) {
     const market = draft.markets[action.outcome.marketId].data;
     draft.outcomes[action.outcome.outcomeId] = {
       loading: false,
+      outcomeId: action.outcome.outcomeId,
       data: action.outcome
     };
 
@@ -154,6 +173,8 @@ export default function reducer(state = defaultState, action) {
     subscriptionResultsReducer(draft, action);
 
     subscriptionsReducer(draft, action);
+
+    betSlipReducer(draft, action);
 
     if (action.type === "TOGGLE_PRICE_FORMAT") {
       draft.settings.showDecimalPrices = !draft.settings.showDecimalPrices;

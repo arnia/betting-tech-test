@@ -25,6 +25,7 @@ function CorrectScoreOutcomes({ ordoredOutcomes }) {
             return outcome ? (
               <Outcome
                 key={outcome.outcomeId}
+                id={outcome.outcomeId}
                 name={`${home}-${away}`}
                 price={outcome.price}
                 suspended={outcome.status.suspended}

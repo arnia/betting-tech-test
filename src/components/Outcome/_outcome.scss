@@ -17,6 +17,11 @@
 		&--price {
 				color: $color-red;
 				font-weight: $font-weight-bold;
+
+				&__value {
+						cursor: pointer;						
+				}
+
 		}
 
 		&__suspended {

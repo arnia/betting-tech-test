@@ -9,6 +9,7 @@ function WinDrawWinOutcomes({ ordoredOutcomes }) {
       {ordoredOutcomes.map(outcome => (
         <Outcome
           key={outcome.outcomeId}
+          id={outcome.outcomeId}
           name={outcome.name}
           price={outcome.price}
           suspended={outcome.status.suspended}

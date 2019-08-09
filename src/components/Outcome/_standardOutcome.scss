@@ -9,12 +9,14 @@
 		&--name {
 				display: inline-flex;
 				align-items: center;
+
 				color: grey;
 				padding: 1rem;
 				padding-left: 2rem;
 		}
 
 		&--outcome {
+				border-left: 1px solid $color-blue-light;
 				width: 16rem;
 				flex-grow: 0;
 				flex-shrink: 0;
