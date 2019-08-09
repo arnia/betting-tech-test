@@ -2,6 +2,7 @@ import React from "react";
 import _ from "lodash";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { ReactComponent as LoadingIcon } from "../loading.svg";
 import "./_event.scss";
 import Market from "../Market/Market";
 
@@ -18,6 +19,12 @@ function Event({
       <div className="Event--header">
         <div className="Event--name">
           <b>{name}</b>
+
+          {loading ? (
+            <div className="loading">
+              <LoadingIcon width={30} height={30} />
+            </div>
+          ) : null}
         </div>
 
         <div className="Event--scores">
@@ -63,5 +70,11 @@ export default connect((state, props) => {
         )
       );
 
-  return { loading };
+  const eventLoading = _.get(
+    state,
+    `events['${props.eventId}'].loading`,
+    false
+  );
+
+  return { loading: loading || eventLoading };
 })(React.memo(Event));

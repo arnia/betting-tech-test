@@ -5,6 +5,11 @@
 		font-family: $open-sans;
 		font-size: 1.6rem;
 
+		&--name {
+				display: inline-flex;
+				align-items: center;
+		}
+
 		&--header {
 				display: flex;
 				justify-content: space-between;

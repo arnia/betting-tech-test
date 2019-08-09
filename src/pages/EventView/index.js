@@ -14,10 +14,6 @@ function EventView({ loading, data, errorMessage, getEvent }) {
     return <div>{errorMessage}</div>;
   }
 
-  if (loading) {
-    return <div>...loading</div>;
-  }
-
   if (_.isEmpty(data)) {
     return null;
   }

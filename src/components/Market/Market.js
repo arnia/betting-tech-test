@@ -58,7 +58,7 @@ function Market({
         </div>
         <div>
           {loadingOutcomes ? (
-            <div className="Market--loading">
+            <div className="loading">
               <LoadingIcon height={30} width={30} />
             </div>
           ) : (

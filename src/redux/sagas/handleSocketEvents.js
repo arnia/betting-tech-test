@@ -1,4 +1,5 @@
 import { takeEvery, put } from "redux-saga/effects";
+import _ from "lodash";
 
 function* handleSubscriptionEvents({ payload }) {
   if (payload.type === "OUTCOME_STATUS") {
@@ -35,12 +36,19 @@ function* receiveSocketEvents({ payload }) {
     yield put({ type: "SET_OUTCOME_DATA", outcome: payload.data });
   }
 
-  if (payload.type === "ERROR" && payload.data.actionType === "getEvent") {
-    yield put({
-      type: "EVENT_NOT_FOUND",
-      eventId: payload.data.id,
-      errorMessage: payload.data.message
-    });
+  if (payload.type === "ERROR") {
+    if (
+      ["getEvent", "getMarket", "getOutcome"].indexOf(
+        payload.data.actionType
+      ) !== -1
+    ) {
+      yield put({
+        type: "NOT_FOUND",
+        id: payload.data.id,
+        errorMessage: payload.data.message,
+        to: _.replace(payload.data.actionType, "get", "").toLowerCase() + "s"
+      });
+    }
   }
 
   yield* handleSubscriptionEvents({ payload });

@@ -39,6 +39,14 @@ function eventsReducer(draft, action) {
     draft.eventsLoading = true;
   }
 
+  if (action.type === "START_LOADING_EVENT") {
+    if (!draft.events[action.eventId]) {
+      draft.events[action.eventId] = {};
+    }
+    draft.events[action.eventId].loading = true;
+    draft.eventsLoading = true;
+  }
+
   if (action.type === "SET_LIVE_EVENTS") {
     let events = {};
     (action.events || []).forEach(event => {
@@ -52,13 +60,6 @@ function eventsReducer(draft, action) {
       };
     });
     draft.events = events;
-  }
-
-  if (action.type === "EVENT_NOT_FOUND") {
-    draft.events[action.eventId] = {
-      loading: false,
-      errorMessage: action.errorMessage
-    };
   }
 }
 
@@ -175,6 +176,13 @@ export default function reducer(state = defaultState, action) {
     subscriptionsReducer(draft, action);
 
     betSlipReducer(draft, action);
+
+    if (action.type === "NOT_FOUND") {
+      draft[action.to][action.id] = {
+        loading: false,
+        errorMessage: action.errorMessage
+      };
+    }
 
     if (action.type === "TOGGLE_PRICE_FORMAT") {
       draft.settings.showDecimalPrices = !draft.settings.showDecimalPrices;

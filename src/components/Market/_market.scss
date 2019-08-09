@@ -19,11 +19,6 @@
 				}
 		}
 
-		&--name {
-				display: inline-flex;
-				align-items: center;
-		}
-
 		&--subscribe {
 				margin-right: 1rem;
 		}
@@ -44,23 +39,8 @@
 				height: 2.5rem;
 		}
 
-		&--loading {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-
-				& svg {
-						display: inline-flex;
-						animation-name: spin;
-						animation-duration: 2000ms;
-						animation-iteration-count: infinite;
-						animation-timing-function: linear;
-				}
-		}
-
 		&--notes-bullet {
 				margin: 0 1rem;
 		}
-
 }
 
