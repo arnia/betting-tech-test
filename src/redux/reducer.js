@@ -9,6 +9,11 @@ const defaultState = {
   outcomes: {},
   settings: {
     showDecimalPrices: false
+  },
+  subcriptions: {
+    events: {},
+    markets: {},
+    outcomes: {}
   }
 };
 
@@ -21,7 +26,9 @@ function eventsReducer(draft, action) {
     let events = {};
     (action.events || []).forEach(event => {
       draft.eventsLoading = action.loading;
+      const oldEvent = draft.events[event.eventId] || {};
       events[event.eventId] = {
+        ...oldEvent,
         loading: false,
         eventId: event.eventId,
         data: event
@@ -94,7 +101,7 @@ function outcomesReducer(draft, action) {
   }
 }
 
-function subscriptionEventsReducer(draft, action) {
+function subscriptionResultsReducer(draft, action) {
   if (action.type === "CHANGE_OUTCOME_STATUS") {
     const outcome = draft.outcomes[action.data.outcomeId];
     if (outcome && outcome.data) {
@@ -119,6 +126,23 @@ function subscriptionEventsReducer(draft, action) {
   }
 }
 
+function subscriptionsReducer(draft, action) {
+  if (action.type === "SUBSCRIBE") {
+    const obj = _.get(draft, action.to + "s." + action.id);
+    if (obj) {
+      obj.subscribed = true;
+    }
+  }
+
+  if (action.type === "UNSUBSCRIBE") {
+    const obj = _.get(draft, action.to + "s." + action.id);
+
+    if (obj) {
+      obj.subscribed = false;
+    }
+  }
+}
+
 export default function reducer(state = defaultState, action) {
   return produce(state, draft => {
     eventsReducer(draft, action);
@@ -127,7 +151,9 @@ export default function reducer(state = defaultState, action) {
 
     outcomesReducer(draft, action);
 
-    subscriptionEventsReducer(draft, action);
+    subscriptionResultsReducer(draft, action);
+
+    subscriptionsReducer(draft, action);
 
     if (action.type === "TOGGLE_PRICE_FORMAT") {
       draft.settings.showDecimalPrices = !draft.settings.showDecimalPrices;

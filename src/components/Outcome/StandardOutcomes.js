@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import "./_standardOutcome.scss";
+import Subscribe from "../Subscribe";
 import Outcome from "./Outcome";
 
 function StandardOutcomes({ ordoredOutcomes }) {
@@ -8,7 +9,12 @@ function StandardOutcomes({ ordoredOutcomes }) {
     <div>
       {ordoredOutcomes.map(outcome => (
         <div className="StandardOutcome" key={outcome.outcomeId}>
-          <div className="StandardOutcome--name">{outcome.name}</div>
+          <div className="StandardOutcome--name">
+            <div className="StandardOutcome--subscribe">
+              <Subscribe to="outcome" id={outcome.outcomeId} />
+            </div>
+            {outcome.name}
+          </div>
 
           <div className="StandardOutcome--outcome">
             <Outcome

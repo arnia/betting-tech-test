@@ -3,6 +3,7 @@ import _ from "lodash";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import EventClass from "../../components/EventClass";
+import Subscribe from "../../components/Subscribe";
 import Event from "../../components/Event";
 import "./_events.scss";
 
@@ -36,6 +37,11 @@ function LiveEventsPage({ loading, events, getEvents }) {
           key={eventId}
           name={
             <div className="Events--name">
+              <Subscribe
+                className="Events--subscribe"
+                to="event"
+                id={eventId}
+              />
               <NavLink title="Go to event's page" to={`/${eventId}`}>
                 {event.name}
               </NavLink>

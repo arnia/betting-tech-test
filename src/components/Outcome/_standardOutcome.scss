@@ -7,6 +7,8 @@
 		justify-content: space-between;
 
 		&--name {
+				display: inline-flex;
+				align-items: center;
 				color: grey;
 				padding: 1rem;
 				padding-left: 2rem;
@@ -16,6 +18,10 @@
 				width: 16rem;
 				flex-grow: 0;
 				flex-shrink: 0;
+		}
+
+		&--subscribe {
+				padding-right: 1rem;
 		}
 
 }

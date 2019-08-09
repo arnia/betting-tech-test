@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import _ from "lodash";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { ReactComponent as SubscribeIcon } from "./subscribe.svg";
@@ -11,7 +12,8 @@ function Subscribe({
   id,
   className,
   subscribe,
-  unsubscribe
+  unsubscribe,
+  show
 }) {
   const [subscribed, setSubscribe] = useState(isSubscribed);
 
@@ -25,6 +27,10 @@ function Subscribe({
     } else {
       subscribe();
     }
+  }
+
+  if (!show) {
+    return null;
   }
 
   return (
@@ -56,7 +62,36 @@ Subscribe.propTypes = {
 };
 
 export default connect(
-  null,
+  (state, props) => {
+    const obj = _.get(state, props.to + "s." + props.id, {});
+
+    // check if there is a subscription on any parent
+    let show = true;
+    if (!_.isEmpty(obj.data)) {
+      const marketId = obj.data.marketId;
+      if (marketId && marketId !== props.id) {
+        const subscriptionToMarket = _.get(
+          state.markets,
+          marketId + ".subscribed",
+          false
+        );
+        show = !subscriptionToMarket;
+      }
+
+      const eventId = obj.data.eventId;
+      if (eventId && eventId !== props.id) {
+        const subscriptionToEvent = _.get(
+          state.events,
+          eventId + ".subscribed",
+          false
+        );
+
+        show = show && !subscriptionToEvent;
+      }
+    }
+
+    return { isSubscribed: obj.subscribed, show };
+  },
   (dispatch, props) => ({
     subscribe: () =>
       dispatch({ type: "SUBSCRIBE", to: props.to, id: props.id }),
