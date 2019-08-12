@@ -20,7 +20,7 @@ The app has a lot of changing parts and for every change multiple components hav
 
 The communication with the web-socket was simplified by `redux-saga` to dispatching events in components and handling them in reducers.
 
-To keep the data immutable I used [immerJS][https://github.com/immerjs/immer].
+To keep the data immutable I used [immerJS](https://github.com/immerjs/immer).
 
 The feature where I had the freedom to choose how to allow the browsing for event details was implemented as a new page and `react-router` helped.
 
