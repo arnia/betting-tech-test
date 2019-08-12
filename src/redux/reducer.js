@@ -9,11 +9,6 @@ const defaultState = {
   settings: {
     showDecimalPrices: false
   },
-  subcriptions: {
-    events: {},
-    markets: {},
-    outcomes: {}
-  },
   betSlip: []
 };
 
